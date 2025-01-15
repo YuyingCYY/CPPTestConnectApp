@@ -1,3 +1,2 @@
 ﻿  CPPTestConnectApp.cpp
-  CPPTestConnectApp.vcxproj -> C:\Users\ewingchen\source\repos\Winsock Example\CPPTestConnectApp\x64\Debug\CPPTestConnectApp.exe
-  已複製 0 個檔案
+C:\Users\ewingchen\source\repos\Winsock Example\CPPTestConnectApp\CPPTestConnectApp\CPPTestConnectApp.cpp(1,1): error C1041: 無法開啟程式資料庫 'C:\Users\ewingchen\source\repos\Winsock Example\CPPTestConnectApp\CPPTestConnectApp\x64\Debug\vc143.pdb'; 如果要將多個 CL.EXE 寫到同一個 .PDB 檔案，請使用 /FS
