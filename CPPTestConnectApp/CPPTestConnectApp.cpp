@@ -15,6 +15,7 @@ int main()
 		const char* askId = "MainApp";
 		const char* productSeries = "BMS";
 		const char* applicableProjects = "Thai";
+		const char* customizeId = "0";
 
 		if (!InitializeClient(stationType, stationName, stationId, operatorId)) {
 			std::cerr << "Failed to initialize client connection" << std::endl;
@@ -22,10 +23,27 @@ int main()
 		}
 
 		std::cout << "Connected to server successfully" << std::endl;
+
+		/*SendData(askId, productSeries, applicableProjects, false);
+
+		char buffer[4096];
+		int bytesReceived = ReceiveData(buffer, sizeof(buffer));
+		std::cout << "Received " << bytesReceived << " bytes: " << buffer << std::endl;*/
+		
+		MainAppInfo* mainAppInfo = GetMainAppInfo(productSeries, applicableProjects, customizeId);
+		if (!mainAppInfo) {
+			std::cerr << "Failed to get main app info" << std::endl;
+			CloseConnection();
+			return 1;
+		}
+		std::cout << "Version: " << mainAppInfo->version << std::endl;
+		std::cout << "BL Version: " << mainAppInfo->blVersion << std::endl;
+		std::cout << "Calibration Offset: " << mainAppInfo->calibrationOffset << std::endl;
+
 		std::cout << "Starting file download..." << std::endl;
 
 		// 獲取 .bin 檔案function，
-		FileInfo* fileInfo = GetBinFileInfo(askId, productSeries, applicableProjects);
+		FileInfo* fileInfo = GetBinFileInfo(askId, productSeries, applicableProjects, customizeId);
 		if (!fileInfo) {
 			std::cerr << "Failed to get file info" << std::endl;
 			CloseConnection();
