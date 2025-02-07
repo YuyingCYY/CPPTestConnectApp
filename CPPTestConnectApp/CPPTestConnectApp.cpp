@@ -15,7 +15,7 @@ int main()
 		const char* askId = "MainApp";
 		const char* productSeries = "BMS";
 		const char* applicableProjects = "Thai";
-		const char* customizeId = "0";
+		const char* customizeId = "10000";
 
 		if (!InitializeClient(stationType, stationName, stationId, operatorId)) {
 			std::cerr << "Failed to initialize client connection" << std::endl;
@@ -36,9 +36,22 @@ int main()
 			CloseConnection();
 			return 1;
 		}
+		std::cout << "Main app info:" << std::endl;
 		std::cout << "Version: " << mainAppInfo->version << std::endl;
 		std::cout << "BL Version: " << mainAppInfo->blVersion << std::endl;
-		std::cout << "Calibration Offset: " << mainAppInfo->calibrationOffset << std::endl;
+		std::cout << "Calibration Offset: " << mainAppInfo->calibrationOffset << "\n\n" << std::endl;
+
+		DefaultParametersInfo* defaultParaInfo = GetDefaultParametersInfo(productSeries, applicableProjects, customizeId);
+		if (!defaultParaInfo) {
+			std::cerr << "Failed to get default parameters info" << std::endl;
+			CloseConnection();
+			return 1;
+		}
+		std::cout << "Default parameters info:" << std::endl;
+		std::cout << "Version: " << defaultParaInfo->version << std::endl;
+		std::cout << "BL Version: " << defaultParaInfo->blVersion << std::endl;
+		std::cout << "Calibration Offset: " << defaultParaInfo->calibrationOffset << std::endl;
+		std::cout << defaultParaInfo->shieldedZone->end << "\n\n" << std::endl;
 
 		std::cout << "Starting file download..." << std::endl;
 
@@ -106,7 +119,7 @@ int main()
 		std::cout << "Cleaning up..." << std::endl;
 		std::filesystem::remove(tempPath);
 		FreeFileInfo(fileInfo);
-		CloseConnection();
+		bool isClose = CloseConnection();
 
 		std::cout << "Operation completed successfully" << std::endl;
 		return 0;
